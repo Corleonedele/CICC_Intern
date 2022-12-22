@@ -1,0 +1,10 @@
+./Draw/ipynb_checkpoints
+./Hold/ipynb_checkpoints
+./Draw/Fixed_Data
+./Draw/Input_Data
+./Draw/Output_Data
+./Draw/Stored_Data
+
+*.xlsx
+*.txt
+*.DS_store
