@@ -3,7 +3,7 @@
 ./Draw/Fixed_Data
 ./Draw/Input_Data
 ./Draw/Output_Data
-./Draw/Stored_Data
+./Draw/Fixed_Data/Stored_Data
 
 *.xlsx
 *.txt

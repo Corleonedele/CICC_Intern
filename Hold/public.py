@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import os
 
@@ -20,8 +19,8 @@ class Public():
             os.makedirs("./Input_Data") 
         if not os.path.exists("./Output_Data"):
             os.makedirs("./Output_Data") 
-        if not os.path.exists("./Stored_Data"):
-            os.makedirs("./Stored_Data") 
+        if not os.path.exists("./Fixed_Data/Stored_Data"):
+            os.makedirs("./Fixed_Data/Stored_Data") 
 
     def getFileList(filter_arg=False, path=".", dir_only=False):
         """默认获取当前文件夹下文件, 可设置filter_arg来查找特定文件(eg filter_arg=".py" 会查找python文件, 设置path去查找特定路径下查找文件, 返回该文件夹下所有文件"""
@@ -52,4 +51,5 @@ class Compute():
             return 0
         j = np.argmax(input_list[:i])
         return (input_list[j] - input_list[i]) / input_list[j], j, i
+
 
