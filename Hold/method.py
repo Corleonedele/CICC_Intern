@@ -3,8 +3,11 @@ from public import *
 
 
 
-
 class Method():
+
+    def codeTransfer():
+        return
+
 
     def mergeSameSheet(file_name, sheet_name, path, **kwargs) -> pd.DataFrame:
         """合并同一个文件夹下多个Excel中的指定sheet"""
