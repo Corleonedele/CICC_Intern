@@ -43,7 +43,6 @@ class Public():
         return None
 
 
-    
 
 class Compute():
 

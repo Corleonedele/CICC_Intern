@@ -1,5 +1,6 @@
-./Draw/ipynb_checkpoints
-./Hold/ipynb_checkpoints
+./Draw/ipynb_checkpoints/
+./Hold/ipynb_checkpoints/
+
 ./Draw/Fixed_Data
 ./Draw/Input_Data
 ./Draw/Output_Data
@@ -8,3 +9,4 @@
 *.xlsx
 *.txt
 *.DS_store
+*.__pycache__
