@@ -31,7 +31,7 @@ class Public():
                 return list(filter(lambda x: "." not in x, os.listdir(path)))
             return os.listdir(path)
             
-    def readFile(file_name):
+    def readFile(file_name) -> str:
         """按文件名查找文件, 如果当前目录没找到, 找且仅找下一级目录, 若仍然没找到则返回None"""
         current_file_list = Public.getFileList()
         if file_name in current_file_list: 
