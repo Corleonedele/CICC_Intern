@@ -50,7 +50,7 @@ class Compute():
         """计算最大回撤 返回最大回撤率与最大回撤区间(左, 右)的index"""
         i = np.argmax((np.maximum.accumulate(input_list) - input_list) / np.maximum.accumulate(input_list))
         if i == 0: 
-            return 0
+            return 0, 0, 0
         j = np.argmax(input_list[:i])
         return (input_list[j] - input_list[i]) / input_list[j], j, i
 

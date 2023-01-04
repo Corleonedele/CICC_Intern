@@ -36,7 +36,3 @@ class Method():
             read_sheet =  pd.read_excel(file_path, header=kwargs["header"], index_col=kwargs["index_col"], sheet_name=sheet_name)
             return_sheet=pd.concat([return_sheet, read_sheet], ignore_index = False)
         return return_sheet.groupby(return_sheet.index).first() 
-
-    def indexCal_1(dataFrame, w) -> pd.DataFrame:
-
-        return

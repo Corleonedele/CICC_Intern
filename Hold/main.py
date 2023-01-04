@@ -2,8 +2,8 @@ from method import *
 from public import *
 from WindPy import w
 
-
-
+INDEX_RATE = {}
+INDEX_MAXDRAWDOWN = {}
 
 def data():
     # 处理data
@@ -60,5 +60,83 @@ def data():
     history_accu_value.to_csv("Output_Data/mid_1.csv")
     history_unit_value.to_csv("Output_Data/mid_2.csv")
     
+
+def thresholdCal(dataFrame, threshold_desc, output_threshold, df_底层资产私募配置情况) -> pd.DataFrame:
+    """计算每类产品的指数, 返回DataFrame"""
+    result_df = pd.DataFrame(threshold_desc)
+
+    date = dataFrame.iloc[:,[0]]
+    start_date = date.iloc[2]
+    end_data = date.iloc[-1]
+    index = dataFrame.iloc[:,[1]]
+    accu_index_rate = float(index.iloc[2]) / float(index.iloc[-1]) - 1
+
+    for i in range(2, dataFrame.shape[1]):
+        product = dataFrame.iloc[:,[i]]
+        product_name = product.iloc[0]
+        product_value = product.iloc[2:dataFrame.shape[0]]
+        # 对每个产品计算
+
+        # 产品累计盈亏指标
+        accu_profit_rate = float(df_底层资产私募配置情况.loc[df_底层资产私募配置情况["产品代码"] == dataFrame.columns[i]]["累计盈亏比例"].values[0][:-1]) / 100 #累计亏损指标
+        # 指数最新回撤（第一天到最后一天）
+        index_rate = float(INDEX_RATE["中证500"])
+        # 指数最大回撤（max那天到最后一天）
+        index_maxDrawdown = float(INDEX_MAXDRAWDOWN["中证500"])
+        # 指数对比相对亏损
+        compare_profit_rate = accu_profit_rate - index_rate 
+        # 产品最新最大回撤
+        try:
+            new_maxDrawdown = (float(max(product_value.values)) - float(product_value.values[-1])) / float(max(product_value.values))
+        except:
+            print(product_name.values, "Error")
+            new_maxDrawdown = 0
+        # 产品历史最大回撤
+        tem = []
+        for value in product_value.values:
+            t = float(value)
+            if t == 0: continue
+            tem.append(t)
+        # history_maxDrawdown = Compute.maxDrawdown(tem)[0]
+
+        # 产品持有期间盈亏
+        try:
+            accu_hold_profit_rate = tem[0] / tem[-1] - 1
+        except:
+            accu_hold_profit_rate = 0
+        # 产品对比相对回撤
+        compare_maxDrawdown_rate = new_maxDrawdown - index_maxDrawdown
+
+
+        # 写入DataFrame
+        result_df.insert(i, product_name.to_string(), 0)
+        # print(accu_profit_rate, index_rate, compare_profit_rate, new_maxDrawdown, )
+        if ("产品累计亏损" in output_threshold):
+            result_df.iloc[output_threshold.index("产品累计亏损"), i] = accu_profit_rate
+
+        if ("产品相对亏损_不比较" in output_threshold):
+            result_df.iloc[output_threshold.index("产品相对亏损_不比较"), i] = compare_profit_rate
+        elif ("产品相对亏损" in output_threshold):
+            if index_rate < 0.1:
+                result_df.iloc[output_threshold.index("产品相对亏损"), i] = compare_profit_rate
+            else:
+                result_df.iloc[output_threshold.index("产品相对亏损")+1, i] = compare_profit_rate
+
+        if ("产品最新回撤" in output_threshold):
+            result_df.iloc[output_threshold.index("产品最新回撤"), i] = new_maxDrawdown
+        # if ("产品最大回撤" in output_threshold):
+        #     result_df.iloc[output_threshold.index("产品最大回撤" ), i] = history_maxDrawdown
+        if ("产品相对回撤" in output_threshold):
+            result_df.iloc[output_threshold.index("产品相对回撤"), i] = compare_maxDrawdown_rate
+        if ("持有期间跌幅" in output_threshold):
+            result_df.iloc[output_threshold.index("持有期间跌幅"), i] = accu_hold_profit_rate
+
+        if ("日期" in output_threshold):
+            result_df.iloc[output_threshold.index("日期"), i] = date.iloc[-1]
+
+    return result_df
+
+
+
 
 data()
