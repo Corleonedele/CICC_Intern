@@ -39,11 +39,11 @@ class Method():
 
 
     def compareCell(sheet1, sheet2, color_mark, *kwargs):
-
         """**kwargs格式 start_row, end_row, start_col, end_col
                         row_offset, col_offset
             一共10个参数 """
         start_row, end_row, start_col, end_col, row_offset, col_offset = kwargs
+        
         print("开始比对", "sheet1 start from", (start_row, start_col) ,
                         "sheet2 start from", (start_row+row_offset, start_col+col_offset) ,
                         "sheet1 end in", (end_row, end_col) ,
