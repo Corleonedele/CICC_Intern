@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Root Page</title>
+    <link rel="stylesheet" type="text/css" href="static/css/root.css" />
+  </head>
+
+  <body>
+    <div class="content">
+      <div>
+        <img src="static/img/CICCWM.png">
+      </div>
+
+      <div class="menu">
+        <div>当前操作模式 <b>追加</b></div>
+
+
+        <form action="/your-name/" method="post">
+
+            <label>成交时间</label> <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+
+            <input type="submit" value="确认">
+        </form>
+        
+        <div class="inputs">
+
+            <div>买卖方向 <input></div>
+            <div>证劵代码 <input></div>
+            <div>产品名称 <input></div>
+            <div>产品管理人 <input></div>
+            <div>策略类型 <input></div>
+            <div>策略类型（新） <input></div>
+            <div>跟踪指数 <input></div>
+            <div>细分策略 <input></div>
+            <div>产品分类 <input></div>
+            <div>成交数量 <input></div>
+            <div>成交金额（万元） <input></div>
+            <div>本年度成本价（2022年已结转部分） <input></div>
+            <div>本年度成本（万元）<input></div>
+            <div>分支机构 <input></div>
+            <div>推荐IC <input></div>
+            <div>考核承担IC <input></div>
+            <div>IC分摊比例 <input></div>
+        </div> 
+
+
+        <div class="buttons">
+            <button onclick="window.location.href='/'"><div>返回主页面</div></button>  
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>
