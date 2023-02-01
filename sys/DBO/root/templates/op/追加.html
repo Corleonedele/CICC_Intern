@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Root Page</title>
     <link rel="stylesheet" type="text/css" href="static/css/root.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/inputs.css" />
   </head>
 
   <body>
@@ -15,34 +17,34 @@
       <div class="menu">
         <div>当前操作模式 <b>追加</b></div>
 
-
-        <form action="/your-name/" method="post">
-
-            <label>成交时间</label> <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-
-            <input type="submit" value="确认">
+        <form class="inputs" action="/test" method="post" accept-charset="UTF-8">
+          <div class="inputs_structure">
+            <div>
+              <div>买卖方向 <input id=买卖方向  type="text" name=买卖方向  value="{{ input_买卖方向  }}"> </div> 
+              <div>证劵代码 <input id=证劵代码  type="text" name=证劵代码  value="{{ input_证劵代码  }}"> </div> 
+              <div>产品名称 <input id=产品名称  type="text" name=产品名称  value="{{ input_产品名称  }}"> </div> 
+              <div>产品管理人 <input id=产品管理人  type="text" name=产品管理人  value="{{ input_产品管理人  }}"> </div> 
+              <div>策略类型 <input id=策略类型  type="text" name=策略类型  value="{{ input_策略类型  }}"> </div> 
+              <div>策略类型_新 <input id=策略类型_新  type="text" name=策略类型_新  value="{{ input_策略类型_新  }}"> </div> 
+              <div>跟踪指数 <input id=跟踪指数  type="text" name=跟踪指数  value="{{ input_跟踪指数  }}"> </div> 
+              <div>细分策略 <input id=细分策略  type="text" name=细分策略  value="{{ input_细分策略  }}"> </div> 
+              <div>产品分类 <input id=产品分类  type="text" name=产品分类  value="{{ input_产品分类  }}"> </div> 
+            </div>
+            <div>
+              <div>成交数量 <input id=成交数量  type="text" name=成交数量  value="{{ input_成交数量  }}"> </div> 
+              <div>成交金额_万元 <input id=成交金额_万元  type="text" name=成交金额_万元  value="{{ input_成交金额_万元  }}"> </div> 
+              <div>本年度成本价_2022年已结转部分 <input id=本年度成本价_2022年已结转部分  type="text" name=本年度成本价_2022年已结转部分  value="{{ input_本年度成本价_2022年已结转部分  }}"> </div> 
+              <div>本年度成本_万元<input id=本年度成本_万元 type="text" name=本年度成本_万元 value="{{ input_本年度成本_万元 }}"> </div> 
+              <div>分支机构 <input id=分支机构  type="text" name=分支机构  value="{{ input_分支机构  }}"> </div> 
+              <div>推荐IC <input id=推荐IC  type="text" name=推荐IC  value="{{ input_推荐IC  }}"> </div> 
+              <div>考核承担IC <input id=考核承担IC  type="text" name=考核承担IC  value="{{ input_考核承担IC  }}"> </div> 
+              <div>IC分摊比例 <input id=IC分摊比例  type="text" name=IC分摊比例  value="{{ input_IC分摊比例  }}"> </div> 
+            </div>
+          </div>
+          <input type="submit" value="确认">
         </form>
-        
-        <div class="inputs">
 
-            <div>买卖方向 <input></div>
-            <div>证劵代码 <input></div>
-            <div>产品名称 <input></div>
-            <div>产品管理人 <input></div>
-            <div>策略类型 <input></div>
-            <div>策略类型（新） <input></div>
-            <div>跟踪指数 <input></div>
-            <div>细分策略 <input></div>
-            <div>产品分类 <input></div>
-            <div>成交数量 <input></div>
-            <div>成交金额（万元） <input></div>
-            <div>本年度成本价（2022年已结转部分） <input></div>
-            <div>本年度成本（万元）<input></div>
-            <div>分支机构 <input></div>
-            <div>推荐IC <input></div>
-            <div>考核承担IC <input></div>
-            <div>IC分摊比例 <input></div>
-        </div> 
+
 
 
         <div class="buttons">
