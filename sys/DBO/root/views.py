@@ -17,7 +17,7 @@ def test(request):
         # body_dict = (request.body.decode('utf-8'))
         body_dict = request.POST.dict()
         print(body_dict)
-    return HttpResponse("添加成功")
+    return HttpResponse(body_dict)
 
 
 
