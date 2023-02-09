@@ -3,7 +3,13 @@ import openpyxl
 
 
 DB_PATH = "./DBO/DB/"
-REPORT_PATH = "../DBO/DB/REPORT/"
+REPORT_PATH = "./DBO/DB/REPORT/"
+
+def sheet_copy_paste(to_st, from_st):
+    for row in range(1, from_st.max_row+1):
+        for col in range(1, from_st.max_column+1):
+            to_st.cell(row, col).value = from_st.cell(row, col).value
+
 
 class 交易记录Method():
     def 公用输入():
@@ -88,6 +94,17 @@ def init_report():
     st.title = "风险控制指标情况"
     for i in sheet_name:
         report.create_sheet(i)
+
+    info = openpyxl.load_workbook(DB_PATH+"公共信息.xlsx")
+
+    sheet_copy_paste(report["备注信息表"], info["备注信息表"])
+    sheet_copy_paste(report["份额-产品到期日期"], info["份额-产品到期日期"])
+    sheet_copy_paste(report["资金流水"], info["资金流水"])
+    sheet_copy_paste(report["年初资产+追加资产"], info["年初资产+追加资产"])
+    sheet_copy_paste(report["Mapping"], info["Mapping"])
+
+
+    
     report.save(REPORT_PATH+"report.xlsx")
 
 
@@ -465,7 +482,7 @@ def 底层资产私募配置情况():
 
     # 写入模版
 
-    rep_st = report["底层资产私募配置情况"]
+    rep_st = report["私募种子基金持仓日报表"]
     tem_st = template["底层资产模板"]
 
     for col in range(1, tem_st.max_column):
@@ -483,9 +500,13 @@ def 底层资产私募配置情况():
 
 
     # 写入数据并计算
+    trade_code = []
     tra_st = trade_record["Sheet1"]
-    for row in range(1, tra_st.max_column):
-        rep_st.cell(row, 1).value = tra_st.cell()
+    for row in range(1+1, tra_st.max_row+1):
+        trade_code.append(tra_st.cell(row, 3).value)
+    
+    
+
 
 
 
@@ -495,3 +516,4 @@ def 底层资产私募配置情况():
 
 # 追加({'成交时间':'123','买卖方向': '123', '证劵代码': '123', '产品名称': '123', '产品管理人': '12', '策略类型': '1', '策略类型_新': '2', '跟踪指数': '123', '细分策略': '123', '产品分类': '123', '初始投资金额': '123', '成交数量': '123', '成交金额_万元': '123', '本年度成本价': '123', '分支机构': '123', '推荐IC': '1231', '考核承担IC': '23', 'IC分摊比例': '123'})
 # 底层资产私募配置情况()
+init_report()
