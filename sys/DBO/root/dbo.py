@@ -3,6 +3,7 @@ import openpyxl
 
 
 DB_PATH = "./DBO/DB/"
+REPORT_PATH = "../DBO/DB/REPORT/"
 
 class 交易记录Method():
     def 公用输入():
@@ -79,6 +80,16 @@ class 交易记录Method():
         if 产品持仓数量变动汇总 == 0:
             return 0
         return 产品本年度成本汇总 / 产品持仓数量变动汇总
+
+def init_report():
+    sheet_name = ["备注信息表", "私募种子基金持仓日报表", "交易记录", "份额-产品到期日期", "股票多头", "指数增强", "空气指增", "量化择时", "量化对冲", "宏观对冲", "量化期货", "多策略灵活配置", "资金流水", "年初资产+追加资产", "Mapping", "FOF(YTD)"]
+    report = openpyxl.Workbook()
+    st = report.active
+    st.title = "风险控制指标情况"
+    for i in sheet_name:
+        report.create_sheet(i)
+    report.save(REPORT_PATH+"report.xlsx")
+
 
 
 def 追加(body_dict):
@@ -445,11 +456,42 @@ def 分红再投(body_dict):
     wb.save(DB_PATH+"交易记录.xlsx")
 
 
-def 
+
+
+def 底层资产私募配置情况():
+    template = openpyxl.load_workbook(DB_PATH+"持仓日报模版.xlsx")
+    trade_record = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    report = openpyxl.load_workbook(REPORT_PATH+"report.xlsx")
+
+    # 写入模版
+
+    rep_st = report["底层资产私募配置情况"]
+    tem_st = template["底层资产模板"]
+
+    for col in range(1, tem_st.max_column):
+        rep_st.cell(1, col).value = tem_st.cell(1, col).value
+
+    for row in range(2, tem_st.max_row):
+        rep_st.cell(row, 1).value = tem_st.cell(row, 1).value
+        rep_st.cell(row, 2).value = tem_st.cell(row, 2).value
+        rep_st.cell(row, 3).value = tem_st.cell(row, 3).value
+        rep_st.cell(row, 4).value = tem_st.cell(row, 4).value
+        rep_st.cell(row, 5).value = tem_st.cell(row, 5).value
+        rep_st.cell(row, 6).value = tem_st.cell(row, 6).value
+        rep_st.cell(row, 7).value = tem_st.cell(row, 7).value
+        rep_st.cell(row, 8).value = tem_st.cell(row, 8).value
+
+
+    # 写入数据并计算
+    tra_st = trade_record["Sheet1"]
+    for row in range(1, tra_st.max_column):
+        rep_st.cell(row, 1).value = tra_st.cell()
 
 
 
+    report.save(REPORT_PATH+"report.xlsx")
 
 
 
-追加({'成交时间':'123','买卖方向': '123', '证劵代码': '123', '产品名称': '123', '产品管理人': '12', '策略类型': '1', '策略类型_新': '2', '跟踪指数': '123', '细分策略': '123', '产品分类': '123', '初始投资金额': '123', '成交数量': '123', '成交金额_万元': '123', '本年度成本价': '123', '分支机构': '123', '推荐IC': '1231', '考核承担IC': '23', 'IC分摊比例': '123'})
+# 追加({'成交时间':'123','买卖方向': '123', '证劵代码': '123', '产品名称': '123', '产品管理人': '12', '策略类型': '1', '策略类型_新': '2', '跟踪指数': '123', '细分策略': '123', '产品分类': '123', '初始投资金额': '123', '成交数量': '123', '成交金额_万元': '123', '本年度成本价': '123', '分支机构': '123', '推荐IC': '1231', '考核承担IC': '23', 'IC分摊比例': '123'})
+# 底层资产私募配置情况()

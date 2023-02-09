@@ -21,7 +21,7 @@ def test(request):
 
 
 def 下载日报(request):
-    file = open('../DBO/DB/REPORT/'+"持仓日报.xlsx", "rb")
+    file = open('../DBO/DB/REPORT/'+"report.xlsx", "rb")
     response =FileResponse(file)
     response['Content-Type']='application/octet-stream'
     response['Content-Disposition']='attachment; filename="report.xlsx"'
