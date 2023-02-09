@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.template import loader
 import json
 # Create your views here.
@@ -20,7 +20,13 @@ def test(request):
     return HttpResponse(body_dict)
 
 
-
+def 下载日报(request):
+    file = open('../DBO/DB/REPORT/'+"持仓日报.xlsx", "rb")
+    response =FileResponse(file)
+    response['Content-Type']='application/octet-stream'
+    response['Content-Disposition']='attachment; filename="report.xlsx"'
+    return response
+    
 
 
 def 追加(request):

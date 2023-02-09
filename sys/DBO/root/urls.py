@@ -11,6 +11,7 @@ urlpatterns = [
     path('赎回',views.赎回, name='赎回'),
     path('调减',views.调减, name='调减'),
 
-
+    
+    path('download', views.下载日报, name="下载日报"),
     path('test',views.test, name='test'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
