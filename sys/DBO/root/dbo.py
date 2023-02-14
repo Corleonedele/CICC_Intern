@@ -3,13 +3,9 @@ import openpyxl
 
 
 DB_PATH = "./DBO/DB/"
+TEMPLATE_PATH = "./DBO/DB/TEMPLATE/"
 REPORT_PATH = "./DBO/DB/REPORT/"
-
-def sheet_copy_paste(to_st, from_st):
-    for row in range(1, from_st.max_row+1):
-        for col in range(1, from_st.max_column+1):
-            to_st.cell(row, col).value = from_st.cell(row, col).value
-
+TEST_PATH = "./DBO/DB/TEST/"
 
 class 交易记录Method():
     def 公用输入():
@@ -87,7 +83,26 @@ class 交易记录Method():
             return 0
         return 产品本年度成本汇总 / 产品持仓数量变动汇总
 
-def init_report():
+
+
+
+
+def sheet_copy_paste(to_st, from_st):
+    for row in range(1, from_st.max_row+1):
+        for col in range(1, from_st.max_column+1):
+            to_st.cell(row, col).value = from_st.cell(row, col).value
+
+
+
+def init_empty_template():
+    sheet_name = ["风险控制指标情况", "备注信息表", "私募种子基金持仓日报表", "交易记录", "份额-产品到期日期", "股票多头", "指数增强", "空气指增", "量化择时", "量化对冲", "宏观对冲", "量化期货", "多策略灵活配置", "资金流水", "年初资产+追加资产", "Mapping", "FOF(YTD)"]
+    for i in sheet_name:
+        wb = openpyxl.Workbook()
+        wb.active
+        wb.save(TEMPLATE_PATH+i+".xlsx")
+
+
+def merge_report():
     sheet_name = ["备注信息表", "私募种子基金持仓日报表", "交易记录", "份额-产品到期日期", "股票多头", "指数增强", "空气指增", "量化择时", "量化对冲", "宏观对冲", "量化期货", "多策略灵活配置", "资金流水", "年初资产+追加资产", "Mapping", "FOF(YTD)"]
     report = openpyxl.Workbook()
     st = report.active
@@ -95,22 +110,20 @@ def init_report():
     for i in sheet_name:
         report.create_sheet(i)
 
-    info = openpyxl.load_workbook(DB_PATH+"公共信息.xlsx")
+    for name in sheet_name+["风险控制指标情况"]:
+        wb = openpyxl.load_workbook(TEST_PATH+name+".xlsx")
+        st_from = wb["Sheet"]
+        st_to = report[name]
+        sheet_copy_paste(st_to, st_from)
+        print(name, "loading")
 
-    sheet_copy_paste(report["备注信息表"], info["备注信息表"])
-    sheet_copy_paste(report["份额-产品到期日期"], info["份额-产品到期日期"])
-    sheet_copy_paste(report["资金流水"], info["资金流水"])
-    sheet_copy_paste(report["年初资产+追加资产"], info["年初资产+追加资产"])
-    sheet_copy_paste(report["Mapping"], info["Mapping"])
-
-
-    
-    report.save(REPORT_PATH+"report.xlsx")
+    report.save(REPORT_PATH+"test_report.xlsx")
+    print("日报已生成")
 
 
 
 def 追加(body_dict):
-    wb = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    wb = openpyxl.load_workbook(TEST_PATH+"交易记录.xlsx")
     st = wb["Sheet1"]
     write_row = st.max_row + 1
 
@@ -179,11 +192,11 @@ def 追加(body_dict):
     # 本年度已实现收益 col = 29
     st.cell(write_row, 29).value = 0
 
-    wb.save(DB_PATH+"交易记录.xlsx")
+    wb.save(TEST_PATH+"交易记录.xlsx")
 
 
 def 调减(body_dict):
-    wb = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    wb = openpyxl.load_workbook(TEST_PATH+"交易记录.xlsx")
     st = wb["Sheet1"]
     write_row = st.max_row + 1
 
@@ -252,11 +265,10 @@ def 调减(body_dict):
     st.cell(write_row, 29).value = 0
 
 
-    wb.save(DB_PATH+"交易记录.xlsx")
-
+    wb.save(TEST_PATH+"交易记录.xlsx")
 
 def 赎回(body_dict):
-    wb = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    wb = openpyxl.load_workbook(TEST_PATH+"交易记录.xlsx")
     st = wb["Sheet1"]
     write_row = st.max_row + 1
 
@@ -325,11 +337,10 @@ def 赎回(body_dict):
     st.cell(write_row, 29).value = 0
 
 
-    wb.save(DB_PATH+"交易记录.xlsx")
-
+    wb.save(TEST_PATH+"交易记录.xlsx")
 
 def 现金分红(body_dict):
-    wb = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    wb = openpyxl.load_workbook(TEST_PATH+"交易记录.xlsx")
     st = wb["Sheet1"]
     write_row = st.max_row + 1
 
@@ -398,10 +409,10 @@ def 现金分红(body_dict):
     st.cell(write_row, 29).value = 0
 
 
-    wb.save(DB_PATH+"交易记录.xlsx")
+    wb.save(TEST_PATH+"交易记录.xlsx")
 
 def 分红再投(body_dict):
-    wb = openpyxl.load_workbook(DB_PATH+"交易记录.xlsx")
+    wb = openpyxl.load_workbook(TEST_PATH+"交易记录.xlsx")
     st = wb["Sheet1"]
     write_row = st.max_row + 1
 
@@ -505,8 +516,13 @@ def 底层资产私募配置情况():
     for row in range(1+1, tra_st.max_row+1):
         trade_code.append(tra_st.cell(row, 3).value)
     
-    
 
+    for code in trade_code:
+        row_index = trade_code.index(code) + 2
+
+        
+    
+    print(trade_code)
 
 
 
@@ -516,4 +532,4 @@ def 底层资产私募配置情况():
 
 # 追加({'成交时间':'123','买卖方向': '123', '证劵代码': '123', '产品名称': '123', '产品管理人': '12', '策略类型': '1', '策略类型_新': '2', '跟踪指数': '123', '细分策略': '123', '产品分类': '123', '初始投资金额': '123', '成交数量': '123', '成交金额_万元': '123', '本年度成本价': '123', '分支机构': '123', '推荐IC': '1231', '考核承担IC': '23', 'IC分摊比例': '123'})
 # 底层资产私募配置情况()
-init_report()
+merge_report()
