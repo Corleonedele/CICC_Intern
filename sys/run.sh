@@ -1,0 +1,1 @@
+python ./DBO/manage.py runserver
