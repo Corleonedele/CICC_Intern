@@ -44,7 +44,6 @@ def merge_report():
 
 
 
-
 start_time = time.time()
 
 merge_report()
