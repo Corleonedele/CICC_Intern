@@ -1,4 +1,2 @@
-a = [1, 2]
-
-for i in a+["c"]:
+for i in range(1, 3):
     print(i)
