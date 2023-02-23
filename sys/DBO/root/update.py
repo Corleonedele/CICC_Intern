@@ -11,18 +11,26 @@ class Path():
 
     def readRow(st, row_index, start=0, end=0):
         result = []
-        end = st.max_column
-        for i in range(start+1, end+1):
+        if end == 0:
+            end = st.max_column
+        for i in range(start, end+1):
             result.append(st.cell(row_index, i).value)
         return result
 
+    def readColumn(st, column_index, start=0, end=0):
+        result = []
+        if end == 0:
+            end = st.max_row
+        for i in range(start, end+1):
+            result.append(st.cell(i, column_index).value)
+        return result
 
 
-
-def update_1(row_data): # 修改私募种子基金持仓日报表中的底层资产私募配置情况
+def update(row_data): # 修改私募种子基金持仓日报表中的底层资产私募配置情况
     row_index = 0
     print(row_data)
     私募种子基金持仓日报表 = openpyxl.load_workbook(Path.私募种子基金持仓日报表)["Sheet"]
+    交易记录 = openpyxl.load_workbook(Path.交易数据)["Sheet"]
     底层资产私募配置情况 = (14, 2)
 
     for row in range(14, 私募种子基金持仓日报表.max_row+1):
@@ -54,13 +62,7 @@ def run():
             print("交易记录表更新", 交易数据.max_row - 交易数据_OLD.max_row , "条")
             start_index = 交易数据_OLD.max_row
             end_index = 交易数据.max_row
-            
-            for trade_record in range(start_index + 1, end_index + 1):
-                row_data = Path.readRow(交易数据, trade_record)
-                update_1(row_data)
-                
-
-
+                    
 
                 # print(交易数据.cell(trade_record, 2).value)
             # 修改底层私募
@@ -70,5 +72,3 @@ def run():
 
     # 清空TEST文件夹
     # 复制UPDATED文件到TEST文件夹
-
-run()

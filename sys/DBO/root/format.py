@@ -62,7 +62,14 @@ def 备注信息表(wb):
 
 def 交易记录(wb):
     st = wb["交易记录"]
-
+    for row in range(1, st.max_row+1):
+        # 调整行高
+        st.row_dimensions[row].height = 30
+        for col in range(1, st.max_column):
+            st.cell(row, col).alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+            st.cell(row, col).border = BORDER
+    st.column_dimensions['A'].width = 15  
+    st.column_dimensions['G'].width = 80    
 
 
     print("交易记录 调整结束")
@@ -74,7 +81,7 @@ def main():
 
     wb = openpyxl.load_workbook(REPORT_PATH)
 
-    备注信息表(wb)
+    交易记录(wb)
     wb.save(REPORT_PATH)
 
 if __name__ == "__main__":
