@@ -2,28 +2,12 @@ import openpyxl
 
 
 STANDARD_DATE = "20230203"
-
 class Path():
     交易数据_OLD = "./DBO/DB/UPDATED/交易记录.xlsx"
     交易数据 = "./DBO/DB/TEST/交易记录.xlsx"
     私募种子基金持仓日报表_OLD = "./DBO/DB/TEST/私募种子基金持仓日报表.xlsx"
     私募种子基金持仓日报表 = "./DBO/DB/TEST/私募种子基金持仓日报表.xlsx"
 
-    def readRow(st, row_index, start=0, end=0):
-        result = []
-        if end == 0:
-            end = st.max_column
-        for i in range(start, end+1):
-            result.append(st.cell(row_index, i).value)
-        return result
-
-    def readColumn(st, column_index, start=0, end=0):
-        result = []
-        if end == 0:
-            end = st.max_row
-        for i in range(start, end+1):
-            result.append(st.cell(i, column_index).value)
-        return result
 
 
 def update(row_data): # 修改私募种子基金持仓日报表中的底层资产私募配置情况
@@ -32,6 +16,9 @@ def update(row_data): # 修改私募种子基金持仓日报表中的底层资�
     私募种子基金持仓日报表 = openpyxl.load_workbook(Path.私募种子基金持仓日报表)["Sheet"]
     交易记录 = openpyxl.load_workbook(Path.交易数据)["Sheet"]
     底层资产私募配置情况 = (14, 2)
+    私募种子基金业务资产及盈亏情况 = (3, 2)
+    策略分布 = (4, 10)
+    FOF单一资管计划 = (4, 14)
 
     for row in range(14, 私募种子基金持仓日报表.max_row+1):
         if row_data[2] == 私募种子基金持仓日报表.cell(row, 3).value:

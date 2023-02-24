@@ -1,5 +1,5 @@
 import openpyxl
-
+from public import Public
 
 
 class 风险控制指标情况():
@@ -7,10 +7,8 @@ class 风险控制指标情况():
     path = "./DBO/DB/TEST/风险控制指标情况.xlsx"
 
 
-
 class 私募种子基金持仓日报表():
     path = "./DBO/DB/TEST/私募种子基金持仓日报表.xlsx"
-
 
 
 class 交易记录():
@@ -514,45 +512,21 @@ class 金富一号(私募种子基金持仓日报表):
 
 class 底层资产私募配置情况(私募种子基金持仓日报表):
 
-    def product_update(product_row, 交易记录st, 底层资产私募配置情况st):
-        product_code = 底层资产私募配置情况st.cell(product_row, 3).value
-        match_row = []
-        for row in range(1+1, 交易记录st.max_row+1):
-            if product_code == 交易记录st.cell(row, 3).value:
-                match_row.append(row)
-        if match_row == []: return ValueError("无匹配项")
-
-        投资金额 = 0
-        持有份额 = 0
-        for row in match_row:
-            投资金额 += float(交易记录st.cell(row, 14).value)# 投资金额（万元）	
-            持有份额+= float(交易记录st.cell(row, 15).value)# 持有份额（份）	
-
-        # print(str(交易记录st.cell(row, 1).value)[:10])
-        
-        初始成本价 = float(交易记录st.cell(match_row[0], 16).value)
-        本年度成本价 = float(交易记录st.cell(match_row[0], 27).value)
-        # 初始成本价（元/份）	本年度成本价	单位净值（元/份）	持仓市值（万元）	持仓市值占总持仓比例	2023年浮动盈亏	2023年盈亏比例	累计浮动盈亏（万元）	累计盈亏比例	产品到期日	已实现盈亏（万元）	赎回金额（万元）	管理人持仓	重复	产品规模（总份额）	持有份额 /产品规模（总份额）
-
-
-        print(投资金额, 持有份额, 初始成本价, 本年度成本价)
-
-
-
     def run():
         start_row = 15
         start_col = 2
         交易记录st = openpyxl.load_workbook(交易记录.path)["Sheet"]
         底层资产私募配置情况st = openpyxl.load_workbook(私募种子基金持仓日报表.path)["Sheet"]
-
-        for product_row in range(start_row+1, 底层资产私募配置情况st.max_row+1):
-            
-            底层资产私募配置情况.product_update(product_row, 交易记录st, 底层资产私募配置情况st)
         
+
+        # 根据产品分类读取产品代码
+        
+        # print(Public.readColumn(交易记录st, 10, 1))
+        print(Public.readColumn(交易记录st, 3, 1))
         print("Update Done")
 
-底层资产私募配置情况.run()
 
+底层资产私募配置情况.run()
 
 
 
