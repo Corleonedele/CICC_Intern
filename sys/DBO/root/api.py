@@ -576,6 +576,57 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
             产品管理人.append(交易记录st.cell(row_index, 5).value)
         Public.writeColumn(test_st, 4, 产品管理人, 1)
 
+        # 策略类型
+        策略类型 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            策略类型.append(交易记录st.cell(row_index, 6).value)
+        Public.writeColumn(test_st, 5, 策略类型, 1)
+
+        # 策略类型_新
+        策略类型_新 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            策略类型_新.append(交易记录st.cell(row_index, 7).value)
+        Public.writeColumn(test_st, 6, 策略类型, 1)
+
+        # 对标指数
+        对标指数 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            对标指数.append(交易记录st.cell(row_index, 8).value)
+        Public.writeColumn(test_st, 7, 对标指数, 1)
+
+        # 细分策略
+        细分策略 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            细分策略.append(交易记录st.cell(row_index, 9).value)
+        Public.writeColumn(test_st, 8, 细分策略, 1)
+        
+        # 投资金额（万元）sumif条件求和
+        
+        # 持有份额 sumif条件求和
+
+        # 初始成本价
+        初始成本价_元 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            初始成本价_元.append(交易记录st.cell(row_index, 23).value)
+        Public.writeColumn(test_st, 12, 初始成本价_元, 1)
+
+        # 本年度成本价
+        本年度成本价_元 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            本年度成本价_元.append(交易记录st.cell(row_index, 27).value)
+        Public.writeColumn(test_st, 13, 本年度成本价_元, 1)
+
+        # 单位净值 来自RPA取数
+
+        #
+
+
+
+
+
+        
+
+
 
 
         test_wb.save("test.xlsx")
