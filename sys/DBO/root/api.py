@@ -570,6 +570,12 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
             产品名称.append(交易记录st.cell(row_index, 4).value)
         Public.writeColumn(test_st, 3, 产品名称, 1)
 
+        # 产品管理人
+        产品管理人 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            产品管理人.append(交易记录st.cell(row_index, 5).value)
+        Public.writeColumn(test_st, 4, 产品管理人, 1)
+
 
 
         test_wb.save("test.xlsx")

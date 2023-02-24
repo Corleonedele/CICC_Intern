@@ -5,8 +5,13 @@
 ./Draw/Input_Data
 ./Draw/Output_Data
 ./Draw/Fixed_Data/Stored_Data
+./KR
 
 *.xlsx
 *.txt
 *.DS_store
 *.__pycache__
+KR/read_email.ipynb
+KR/read_email.ipynb
+KR/read_email.ipynb
+KR/read_email.ipynb
