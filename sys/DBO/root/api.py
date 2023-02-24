@@ -512,17 +512,67 @@ class 金富一号(私募种子基金持仓日报表):
 
 class 底层资产私募配置情况(私募种子基金持仓日报表):
 
+    def 产品代码(交易记录st):
+        # 根据产品分类读取产品代码
+        code_type = Public.readColumn(交易记录st, 10, 1)
+        code = Public.readColumn(交易记录st, 3, 1)
+        一对一产品_list_tem = []
+        一对多产品_list_tem = []
+        for index, i in enumerate(code_type):
+            if i.strip() == "一对一产品":
+                一对一产品_list_tem.append((code[index], index+1)) # 加一是因为表头
+            elif i.strip() == "一对多产品":
+                一对多产品_list_tem.append((code[index], index+1))
+        一对一产品_list_tem.reverse()
+        一对多产品_list_tem.reverse()
+        tem_1 = []
+        tem_2 = []
+        for i in 一对一产品_list_tem:
+            if i[0] not in tem_2:
+                tem_1.append(i)
+                tem_2.append(i[0])
+        tem_3 = []
+        tem_4 = []
+        for i in 一对多产品_list_tem:
+            if i[0] not in tem_4:
+                tem_3.append(i)
+                tem_4.append(i[0])     
+
+        return tem_1, tem_3
+
     def run():
         start_row = 15
         start_col = 2
         交易记录st = openpyxl.load_workbook(交易记录.path)["Sheet"]
         底层资产私募配置情况st = openpyxl.load_workbook(私募种子基金持仓日报表.path)["Sheet"]
+    
+        一对一产品, 一对多产品 = 底层资产私募配置情况.产品代码(交易记录st)
+        
+        test_wb = openpyxl.Workbook()
+        test_st = test_wb.active
+        一对一产品code = [i[0] for i in 一对一产品]
+        一对一产品index = [i[1] for i in 一对一产品]
+        一对多产品code = [i[0] for i in 一对多产品]
+        一对多产品index = [i[1] for i in 一对多产品]
+        Public.writeColumn(test_st, 2, 一对一产品code, 1)
+        Public.writeColumn(test_st, 2, 一对多产品code, len(一对一产品)+1)
+
+        # 产品类型
+        私募基金产品类型 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            私募基金产品类型.append(交易记录st.cell(row_index, 10).value)
+        Public.writeColumn(test_st, 1, 私募基金产品类型, 1)
         
 
-        # 根据产品分类读取产品代码
-        
-        # print(Public.readColumn(交易记录st, 10, 1))
-        print(Public.readColumn(交易记录st, 3, 1))
+        # 产品名称
+        产品名称 = []
+        for row_index in 一对一产品index + 一对多产品index:
+            产品名称.append(交易记录st.cell(row_index, 4).value)
+        Public.writeColumn(test_st, 3, 产品名称, 1)
+
+
+
+        test_wb.save("test.xlsx")
         print("Update Done")
 
 
