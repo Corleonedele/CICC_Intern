@@ -523,7 +523,7 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
                 一对一产品_list_tem.append((code[index], index+1)) # 加一是因为表头
             elif i.strip() == "一对多产品":
                 一对多产品_list_tem.append((code[index], index+1))
-        一对一产品_list_tem.reverse()
+        # 一对一产品_list_tem.reverse()
         一对多产品_list_tem.reverse()
         tem_1 = []
         tem_2 = []
@@ -538,7 +538,7 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
                 tem_3.append(i)
                 tem_4.append(i[0])     
 
-        return tem_1, tem_3
+        return tem_1, tem_3, 一对一产品_list_tem, 一对多产品_list_tem
 
     def run():
         start_row = 15
@@ -546,7 +546,7 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
         交易记录st = openpyxl.load_workbook(交易记录.path)["Sheet"]
         底层资产私募配置情况st = openpyxl.load_workbook(私募种子基金持仓日报表.path)["Sheet"]
     
-        一对一产品, 一对多产品 = 底层资产私募配置情况.产品代码(交易记录st)
+        一对一产品, 一对多产品, 一对一产品repeat, 一对多产品repeat = 底层资产私募配置情况.产品代码(交易记录st)
         
         test_wb = openpyxl.Workbook()
         test_st = test_wb.active
@@ -557,68 +557,85 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
         Public.writeColumn(test_st, 2, 一对一产品code, 1)
         Public.writeColumn(test_st, 2, 一对多产品code, len(一对一产品)+1)
 
+        产品汇总 = 一对一产品 + 一对多产品
+        产品汇总code = 一对一产品code + 一对多产品code
+        产品汇总index = 一对一产品index + 一对多产品index
+
         # 产品类型
-        私募基金产品类型 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            私募基金产品类型.append(交易记录st.cell(row_index, 10).value)
-        Public.writeColumn(test_st, 1, 私募基金产品类型, 1)
+        # 私募基金产品类型 = []
+        # for row_index in 产品汇总index:
+        #     私募基金产品类型.append(交易记录st.cell(row_index, 10).value)
+        # Public.writeColumn(test_st, 1, 私募基金产品类型, 1)
         
 
         # 产品名称
-        产品名称 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            产品名称.append(交易记录st.cell(row_index, 4).value)
-        Public.writeColumn(test_st, 3, 产品名称, 1)
+        # 产品名称 = []
+        # for row_index in 产品汇总index:
+        #     产品名称.append(交易记录st.cell(row_index, 4).value)
+        # Public.writeColumn(test_st, 3, 产品名称, 1)
 
-        # 产品管理人
-        产品管理人 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            产品管理人.append(交易记录st.cell(row_index, 5).value)
-        Public.writeColumn(test_st, 4, 产品管理人, 1)
+        # # 产品管理人
+        # 产品管理人 = []
+        # for row_index in 产品汇总index:
+        #     产品管理人.append(交易记录st.cell(row_index, 5).value)
+        # Public.writeColumn(test_st, 4, 产品管理人, 1)
 
-        # 策略类型
-        策略类型 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            策略类型.append(交易记录st.cell(row_index, 6).value)
-        Public.writeColumn(test_st, 5, 策略类型, 1)
+        # # 策略类型
+        # 策略类型 = []
+        # for row_index in 产品汇总index:
+        #     策略类型.append(交易记录st.cell(row_index, 6).value)
+        # Public.writeColumn(test_st, 5, 策略类型, 1)
 
-        # 策略类型_新
-        策略类型_新 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            策略类型_新.append(交易记录st.cell(row_index, 7).value)
-        Public.writeColumn(test_st, 6, 策略类型, 1)
+        # # 策略类型_新
+        # 策略类型_新 = []
+        # for row_index in 产品汇总index:
+        #     策略类型_新.append(交易记录st.cell(row_index, 7).value)
+        # Public.writeColumn(test_st, 6, 策略类型, 1)
 
-        # 对标指数
+        # # 对标指数
         对标指数 = []
-        for row_index in 一对一产品index + 一对多产品index:
+        for row_index in 产品汇总index:
             对标指数.append(交易记录st.cell(row_index, 8).value)
         Public.writeColumn(test_st, 7, 对标指数, 1)
 
-        # 细分策略
+        # # 细分策略
         细分策略 = []
-        for row_index in 一对一产品index + 一对多产品index:
+        for row_index in 产品汇总index:
             细分策略.append(交易记录st.cell(row_index, 9).value)
         Public.writeColumn(test_st, 8, 细分策略, 1)
         
         # 投资金额（万元）sumif条件求和
-        
+        投资金额 = [.0] * len(产品汇总)
+        for product in 产品汇总:
+            code = product[0]
+            read_index = product[1]
+            write_index = 产品汇总code.index(code)
+            投资金额[write_index] += float(交易记录st.cell(read_index, 14).value)
+        Public.writeColumn(test_st, 9, 投资金额, 1)
+
         # 持有份额 sumif条件求和
+        持有份额 = [.0] * len(产品汇总)
+        for product in 产品汇总:
+            code = product[0]
+            read_index = product[1]
+            write_index = 产品汇总code.index(code)
+            持有份额[write_index] += float(交易记录st.cell(read_index, 15).value)
+        Public.writeColumn(test_st, 10, 持有份额, 1)
 
-        # 初始成本价
-        初始成本价_元 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            初始成本价_元.append(交易记录st.cell(row_index, 23).value)
-        Public.writeColumn(test_st, 12, 初始成本价_元, 1)
+        # # 初始成本价
+        # 初始成本价_元 = []
+        # for row_index in 产品汇总index:
+        #     初始成本价_元.append(交易记录st.cell(row_index, 23).value)
 
-        # 本年度成本价
-        本年度成本价_元 = []
-        for row_index in 一对一产品index + 一对多产品index:
-            本年度成本价_元.append(交易记录st.cell(row_index, 27).value)
-        Public.writeColumn(test_st, 13, 本年度成本价_元, 1)
+
+        # # 本年度成本价
+        # 本年度成本价_元 = []
+        # for row_index in 产品汇总index:
+        #     本年度成本价_元.append(交易记录st.cell(row_index, 27).value)
+        # Public.writeColumn(test_st, 13, 本年度成本价_元, 1)
 
         # 单位净值 来自RPA取数
 
-        #
 
 
 
