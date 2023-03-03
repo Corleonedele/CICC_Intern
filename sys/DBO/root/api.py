@@ -15,10 +15,9 @@ class 净值数据():
         net_value_st = wb["单位净值"]
         his_value_st = wb["累计净值"]
 
-
         product_code_list = Public.readRow(net_value_st, 1, 2)
         product_name_list = Public.readRow(net_value_st, 2, 2)
-        print(product_code_list)
+
         if product_code in product_code_list:
             product_index = product_code_list.index(product_code)
         elif product_name in product_name_list:
@@ -31,13 +30,47 @@ class 净值数据():
         日期 = []
         net_value = Public.readColumn(net_value_st, product_index+2, 4)
         his_value = Public.readColumn(his_value_st, product_index+2, 4)
-        print(net_value, product_index)
+
         return net_value, his_value, 日期
 
     def 最新净值(product_name="", product_code=""):
         """读取产品单位最新净值与累计最新净值"""
         if product_name == "" and product_code == "":
-            return [], [], [],"deficiency of product name or product code" 
+            return [], [], [],"deficiency of product name or product code"
+
+        wb = openpyxl.open(净值数据.path)
+        net_value_st = wb["单位净值"]
+        his_value_st = wb["累计净值"]
+
+        product_code_list = Public.readRow(net_value_st, 1, 2)
+        product_name_list = Public.readRow(net_value_st, 2, 2)
+
+        if product_code in product_code_list:
+            product_index = product_code_list.index(product_code)
+        elif product_name in product_name_list:
+            product_index = product_name_list.index(product_name)
+        else:
+            product_index = 0
+            return [], [], [],"product not in value list"
+
+        # 日期 = []
+        net_value = Public.readColumn(net_value_st, product_index+2, 4)
+        his_value = Public.readColumn(his_value_st, product_index+2, 4)
+        net_value.reverse()
+        his_value.reverse()
+        print(net_value)
+        for index, i in enumerate(net_value):
+            if i == None:continue
+            else: 
+                net_value_last = i
+                # 日期_last = 日期[index]
+                his_value_last = his_value[index]
+                break
+        
+        return net_value_last, his_value_last # ，日期
+
+
+print(净值数据.最新净值(product_code="SGD165"))
 
 
 
