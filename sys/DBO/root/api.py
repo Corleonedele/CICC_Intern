@@ -2,10 +2,48 @@ import openpyxl
 from public import Public
 
 
+class 净值数据():
+
+    path = "./DBO/DB/NETVALUE/净值数据.xlsx"
+
+    def 净值汇总(product_name="", product_code=""):
+        """读取产品单位净值与累计净值"""
+        if product_name == "" and product_code == "":
+            return [], [], [],"deficiency of product name or product code"
+
+        wb = openpyxl.open(净值数据.path)
+        net_value_st = wb["单位净值"]
+        his_value_st = wb["累计净值"]
+
+
+        product_code_list = Public.readRow(net_value_st, 1, 2)
+        product_name_list = Public.readRow(net_value_st, 2, 2)
+        print(product_code_list)
+        if product_code in product_code_list:
+            product_index = product_code_list.index(product_code)
+        elif product_name in product_name_list:
+            product_index = product_name_list.index(product_name)
+        else:
+            product_index = 0
+            return [], [], [],"product not in value list"
+        
+        # 日期 = Public.readColumn(net_value_st, 1, 4)
+        日期 = []
+        net_value = Public.readColumn(net_value_st, product_index+2, 4)
+        his_value = Public.readColumn(his_value_st, product_index+2, 4)
+        print(net_value, product_index)
+        return net_value, his_value, 日期
+
+    def 最新净值(product_name="", product_code=""):
+        """读取产品单位最新净值与累计最新净值"""
+        if product_name == "" and product_code == "":
+            return [], [], [],"deficiency of product name or product code" 
+
+
+
 class 风险控制指标情况():
 
     path = "./DBO/DB/TEST/风险控制指标情况.xlsx"
-
 
 class 私募种子基金持仓日报表():
     path = "./DBO/DB/TEST/私募种子基金持仓日报表.xlsx"
@@ -574,25 +612,25 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
         #     产品名称.append(交易记录st.cell(row_index, 4).value)
         # Public.writeColumn(test_st, 3, 产品名称, 1)
 
-        # # 产品管理人
+        # 产品管理人
         # 产品管理人 = []
         # for row_index in 产品汇总index:
         #     产品管理人.append(交易记录st.cell(row_index, 5).value)
         # Public.writeColumn(test_st, 4, 产品管理人, 1)
 
-        # # 策略类型
+        # 策略类型
         # 策略类型 = []
         # for row_index in 产品汇总index:
         #     策略类型.append(交易记录st.cell(row_index, 6).value)
         # Public.writeColumn(test_st, 5, 策略类型, 1)
 
-        # # 策略类型_新
+        # 策略类型_新
         # 策略类型_新 = []
         # for row_index in 产品汇总index:
         #     策略类型_新.append(交易记录st.cell(row_index, 7).value)
         # Public.writeColumn(test_st, 6, 策略类型, 1)
 
-        # # 对标指数
+        # 对标指数
         对标指数 = []
         for row_index in 产品汇总index:
             对标指数.append(交易记录st.cell(row_index, 8).value)
@@ -636,7 +674,32 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
 
         # 单位净值 来自RPA取数
 
+        # 持仓市值
+        # 持仓市值占总持仓比例
 
+        # 2023年浮动盈亏
+        # 2023年盈亏比例
+        # 累计浮动盈亏
+        # 累计盈亏比例
+        # 产品到期日
+        # 已实现盈亏
+        # 赎回金额
+
+        # 管理人持仓
+        # 重复
+        # 产品规模
+        # 持有份额比例
+
+
+
+        # 营业部
+        # IC
+        # 考核承担IC
+        # IC分摊比例
+        # IC承担金额
+        # 公司承担比例
+        # 公司承担金额
+        # 
 
 
 
@@ -650,7 +713,6 @@ class 底层资产私募配置情况(私募种子基金持仓日报表):
         print("Update Done")
 
 
-底层资产私募配置情况.run()
 
 
 
