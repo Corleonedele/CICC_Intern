@@ -81,7 +81,6 @@ class 风险控制指标情况():
 class 私募种子基金持仓日报表():
     path = "./DBO/DB/TEST/私募种子基金持仓日报表.xlsx"
 
-
 class 交易记录():
     path = "./DBO/DB/TEST/交易记录.xlsx"
 
@@ -521,7 +520,6 @@ class 交易记录():
 
 
         wb.save(交易记录.path)
-
 
 class 私募种子基金业务资产及盈亏情况(私募种子基金持仓日报表):
     def 可用资金额度():
