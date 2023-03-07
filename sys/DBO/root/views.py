@@ -43,3 +43,20 @@ def 现金分红(request):
 
 def 分红再投(request):
     return render(request, 'op/分红再投.html')
+
+def IC查询(request):
+    if request.method == 'POST':
+        body_dict = request.POST.dict()
+        
+
+        info_dict = {"IC名称":body_dict.get("IC名称"), 
+                    "IC代码":body_dict.get("IC代码"),
+                    "IC管理产品":[1, 2, 3],
+                    }
+        
+        
+        print(info_dict)
+        content = json.dumps(info_dict)
+        return HttpResponse(content, "application/json")
+    if request.method == 'GET':
+        return render(request, 'op/IC查询.html')

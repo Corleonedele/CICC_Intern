@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Root Page</title>
+    <link rel="stylesheet" type="text/css" href="static/css/root.css" />
+  </head>
+
+  <body>
+    <div class="content">
+      
+      <div>
+        <img src="static/img/CICCWM.png">
+      </div>
+
+      <div class="menu">
+        <div>当前操作模式 <b>IC 查询</b></div>
+
+
+        <form class="inputs" action="/IC查询" method="post" accept-charset="UTF-8">
+            <div class="inputs_structure">
+                <div>IC名称 <input id=IC名称  type="text" name=IC名称  value="{{ IC名称  }}"> </div> 
+                <div>IC代码 <input id=IC代码  type="text" name=IC代码  value="{{ IC代码  }}"> </div> 
+            </div>
+            <input type="submit" value="查询">
+        </form>
+
+
+
+      </div>
+
+    </div>
+  </body>
+</html>

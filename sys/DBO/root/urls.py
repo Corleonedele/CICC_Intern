@@ -10,6 +10,7 @@ urlpatterns = [
     path('现金分红',views.现金分红, name='现金分红'),
     path('赎回',views.赎回, name='赎回'),
     path('调减',views.调减, name='调减'),
+    path('IC查询',views.IC查询, name='IC查询'),
 
     
     path('download', views.下载日报, name="下载日报"),
