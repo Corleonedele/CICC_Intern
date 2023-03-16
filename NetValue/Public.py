@@ -1,6 +1,17 @@
 
 
-class Public():
+class Public:
+
+    def offZero(input_list, zero_only=False, none_only=False)->list:
+        if zero_only and none_only:
+            return list(filter(lambda x: x!=0 and x!= None, input_list))
+        elif zero_only:
+            return list(filter(lambda x: x!=0, input_list))
+        elif none_only:
+            return list(filter(lambda x: x!=None, input_list))
+        else:
+            return input_list
+
 
     def writeRow(st, row_index, write_info, start=0, end=0):   
         if end == 0:
@@ -41,3 +52,4 @@ class Public():
             if i not in result:
                 result.append(i)
         return result
+    
